@@ -1,0 +1,75 @@
+@mixin border-1px ($color,$direction:all,$bottom:0rem){
+  @if $direction == all {
+    border: 1px solid $color;
+    position: relative; 
+    border: none;
+    bottom: -.3rem;
+    &::after{
+      content: '';
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      top: 0; 
+      left: 0;
+      transform: scale(0.5); 
+      transform-origin: 0 0;
+      box-sizing: border-box;
+      border: 1px solid $color;
+      pointer-events: none; // 解决内部元素无法点击问题
+    } 
+  }
+  @else {
+    border-#{$direction}: 1px solid $color;
+    border-#{$direction}: none;
+    position: relative;
+    &:after{
+      bottom: $bottom;
+      content: '';
+      position: absolute;
+      background: $color;
+      display: block;
+      @if $direction==top {
+        width: 100%;
+        height: 1px;
+        left: 0;
+        transform: scaleY(0.5);
+        transform-origin: 0 0;
+      }
+
+      @if $direction == right{
+        width: 1px;
+        height: 100%;
+        top: 0;
+        transform: scaleX(0.5);
+        transform-origin: 0 100%;
+      }
+      @if $direction == bottom{
+        width: 100%;
+        height: 1px;
+        left: 0;
+        transform: scaleY(0.5);
+        transform-origin: 0 100%;
+      }
+      @if $direction == left{
+        width: 1px;
+        height: 100%;
+        top: 0;
+        transform: scaleX(0.5);
+        transform-origin: 0 0;
+      }
+    }
+  }
+}
+
+@mixin elipise(){
+  display:block;
+  /*内联对象需加*/
+  word-break:keep-all;
+  /* 不换行 */
+  white-space:nowrap;
+  /* 不换行 */
+  overflow:hidden;
+  /* 内容超出宽度时隐藏超出部分的内容 */
+  text-overflow:ellipsis;
+  /* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+} 
