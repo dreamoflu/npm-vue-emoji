@@ -181,7 +181,7 @@
         <div class="left">
           发表评论
         </div>
-        <img src="./biao.png" alt="">
+        <img  src="./biao.png" alt=""/>
       </div>
 
       <div  v-show="speakShow" class="comspeak"  id="comspeak">
@@ -257,7 +257,24 @@
 
       }
     },
-    props: ['comment'],
+    // props: ['comment','isLogin','isCollege','code'],
+props:{
+  comment:{
+    type:Array,
+    default:()=>[]
+  },
+  loginObj:{
+    type:Object,
+    default:()=>{
+      return {
+         isCollege:true,
+         code:"winnti"
+      }
+     
+    }
+  }
+},
+
 //    props: ['comment','uid','crid','type'],
     watch:{
       content(){
@@ -339,14 +356,43 @@
 //
 //      },
       bottomclick(){
-        let top = document.getElementById('comment').offsetTop;
-        console.log(top)
+        if(this.loginObj.isCollege==true){
+             let entid = localStorage.getItem('coEntid');
+            let token = localStorage.getItem('token_entid'+entid);
+            if(token==null||token==''){
+              let baseUrl = window.location.href;
+              let back = encodeURIComponent(baseUrl);
+              window.location.href = `${window.location.origin}/elogin/?back=${back}&&project=${this.loginObj.code}`;
+              return;
+           }else{
+            let top = document.getElementById('comment').offsetTop;
+                    window.scroll(0, top);
+                    this.speakShow=true;
+                    this.bottombar=false;
+                    this.$nextTick(()=>{
+                      document.getElementById('in').focus()
+                                    })
+           }
+        }else{
+              let token2 = localStorage.getItem('token');
+              if(token2==null||token2==''){
+              let baseUrl2 = window.location.href;
+              let back2 = encodeURIComponent(baseUrl2);
+              window.location.href = `${window.location.origin}/mlogin/?back=${back2}`;
+              return;
+           }else{
+ let top = document.getElementById('comment').offsetTop;
         window.scroll(0, top);
         this.speakShow=true;
         this.bottombar=false;
         this.$nextTick(()=>{
           document.getElementById('in').focus()
         })
+           }
+         
+        }
+       
+       
 
       },
 //      map: function(data){

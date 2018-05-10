@@ -94,6 +94,7 @@ export default {
   }
   .emoji-container {
     height: 140px;
+    margin: 0;
     overflow-y: auto;
     overflow-x: hidden;
     position: relative;
