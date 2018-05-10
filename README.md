@@ -46,8 +46,8 @@ setComment(obj) {
     'restatus':'', //0为自己发表的评论 1回复其他人的评论
     'replyindex':'' //回复评论的下标
     ]
-},
-//调用接口成功后做如下处理
+
+    //调用接口成功后做如下处理
   if (obj.restatus == 0) {
       this.comment.unshift(data.comment)
      } else {
@@ -56,6 +56,8 @@ setComment(obj) {
          };
          this.comment[obj.replyindex].replys.push(data.comment)
     }
+},
+
 
 
 ```
