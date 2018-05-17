@@ -26,8 +26,15 @@
     font-weight: 300;
   }
   .commentitem{
-    padding:0.1rem 0.26rem;
+    /* padding:0.1rem 0rem; */
+
+  }
+  .commentitem .wrap{
+    padding:0.1rem;
+    margin-left: 0.26rem;
+    padding-right: 0.26rem;
     border-bottom: 1px solid #e6e6e6;
+
   }
   .commentitem .top>img{
     width: 0.58rem;
@@ -185,7 +192,7 @@
       </div>
 
       <div  v-show="speakShow" class="comspeak"  id="comspeak">
-        <textarea id="in" v-model="content"  class="ping"></textarea>
+        <textarea id="in" v-model="content"  :focus="focus" class="ping"></textarea>
         <div>
           <img src="./biao.png" @click="showEmoji = !showEmoji" alt="">
 
@@ -210,6 +217,9 @@
 
 
       <div class="commentitem" v-for="(item,index) in comment" :key="index">
+        <div class="wrap">
+
+
         <div class="top">
           <img :src="item.fromUser.uIcon" alt="">
           <span class="name">{{item.fromUser.uName}}</span>
@@ -224,6 +234,7 @@
             <span>{{childitem.fromUser.uName}}</span>回复 <span>{{childitem.comtReplyUName}}</span>
             <span v-html="emoji(childitem.comtInfo)"> {{childitem.comtInfo}}</span>
           </div>
+        </div>
         </div>
       </div>
 
@@ -254,6 +265,7 @@
         data: [],
         dis:false,
         isactive:false,
+        focus:false,
 
       }
     },
@@ -270,7 +282,7 @@ props:{
          isCollege:true,
          code:"winnti"
       }
-     
+
     }
   }
 },
@@ -325,6 +337,25 @@ props:{
       },
 
       reply(id,uid,name,index){
+        let baseUrl = window.location.href;
+        let back = encodeURIComponent(baseUrl);
+        if(this.loginObj.isCollege==true){
+          let entid = localStorage.getItem('coEntid');
+          let token = localStorage.getItem('token_entid'+entid);
+          if(token==null||token==''){
+            window.location.href = `${window.location.origin}/elogin/?back=${back}&&project=${this.loginObj.code}`;
+            return;
+          }
+        }else{
+          let token = localStorage.getItem('token');
+          if(token==null||token==''){
+            window.location.href = `${window.location.origin}/mlogin/?back=${back}`;
+            return;
+          }
+
+        }
+
+
         let top = document.getElementById('comment').offsetTop
 //        this.speakShow=true;
 //        this.bottombar=false;
@@ -332,7 +363,8 @@ props:{
         this.bottombar=false
         window.scroll(0, top)
         this.$nextTick(()=>{
-          document.getElementById('in').focus()
+          // document.getElementById('in').focus()
+          this.focus = true;
         })
 
         this.restatus=1
@@ -370,7 +402,8 @@ props:{
                     this.speakShow=true;
                     this.bottombar=false;
                     this.$nextTick(()=>{
-                      document.getElementById('in').focus()
+                      // document.getElementById('in').focus()
+                      this.focus = true;
                                     })
            }
         }else{
@@ -386,13 +419,14 @@ props:{
         this.speakShow=true;
         this.bottombar=false;
         this.$nextTick(()=>{
-          document.getElementById('in').focus()
+          // document.getElementById('in').focus()
+          this.focus = true;
         })
            }
-         
+
         }
-       
-       
+
+
 
       },
 //      map: function(data){
