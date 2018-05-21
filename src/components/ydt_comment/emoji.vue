@@ -27,14 +27,15 @@
 </template>
 <script>
 import data from '@/components/common/data/emoji-data.js'
-
+import  {chName} from '@/components/common/data/changeData.js'
 export default {
   name: 'emoji',
   data () {
     return {
       emojiData: data,
       pannels: ['表情'],
-      activeIndex: 0
+      activeIndex: 0,
+      transName:chName
     }
   },
   methods: {
@@ -44,8 +45,24 @@ export default {
     getPureName (name) {
       return name.replace(/:/g, '')
     },
+    // 原先代码
+    // selectItem (emoji) {
+    //   this.$emit('select', emoji)
+    // }
+
+    // 修改后代码
+
     selectItem (emoji) {
-      this.$emit('select', emoji)
+      let emojiName
+      for(let item of this.transName){
+        for(let key in item){
+          if(emoji == key){
+            emojiName = item[key]
+          }
+        }
+
+      }
+      this.$emit('select', emojiName)
     }
   },
   computed: {

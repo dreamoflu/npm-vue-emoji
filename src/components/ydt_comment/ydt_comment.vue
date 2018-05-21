@@ -22,7 +22,7 @@
     text-align: center;
     margin: 0 auto;
     background-color: #ffffff;
-    margin-top: -0.2rem;
+    margin-top: -0.18rem;
     font-weight: 300;
   }
   .commentitem{
@@ -42,6 +42,7 @@
     border-radius: 50%;
     vertical-align: middle;
     margin-right: 0.1rem;
+    border: 1px solid #e6e6e6;
   }
   .commentitem .top span{
     font-size: 13px;
@@ -221,7 +222,7 @@
 
 
         <div class="top">
-          <img :src="item.fromUser.uIcon" alt="">
+          <img class="icon" :src="item.fromUser.uIcon" alt=""/>
           <span class="name">{{item.fromUser.uName}}</span>
           <span class="comtime">{{new Date(item.comtDt).Format("yyyy-MM-dd hh:mm:ss")}}
               <img @click="reply(item.comtId,item.fromUser.uId,item.fromUser.uName,index)" src="./icon2.jpg" alt=""></span>
